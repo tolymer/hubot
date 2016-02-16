@@ -11,15 +11,32 @@ module.exports = (robot) ->
 
 calc = (text) ->
   [fan, fu, role, method] = parse(text)
-  basePoint = fu * Math.pow(2, fan + 2)
+
+  if (fan == 3 and fu == 70) or (4 <= fan and fan <= 5 and 30 <= fu)
+    basePoint = 2000
+  else if 6 <= fan and fan <= 7
+    basePoint = 3000
+  else if 8 <= fan and fan <= 10
+    basePoint = 4000
+  else if 11 <= fan and fan <= 12
+    basePoint = 6000
+  else if 13 <= fan
+    basePoint = 8000
+  else
+    basePoint = fu * Math.pow(2, fan + 2)
+
   isParent = role == '親'
 
   if method == 'ロン'
-    ceil(basePoint * (if isParent then 6 else 4)).toString()
-  else if isParent
-    "#{ceil(basePoint * 2)}ALL"
+    if isParent
+      "#{ceil(basePoint * 6)}"
+    else
+      "#{ceil(basePoint * 4)}"
   else
-    "#{ceil(basePoint * 1)}-#{ceil(basePoint * 2)}"
+    if isParent
+      "#{ceil(basePoint * 2)}ALL"
+    else
+      "#{ceil(basePoint * 1)}-#{ceil(basePoint * 2)}"
 
 parse = (text) ->
   text = (text || '').trim()
