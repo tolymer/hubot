@@ -16,6 +16,9 @@ module.exports = (robot) ->
 
     msg.send "deploying #{appName} :rocket:"
 
+    if appName == 'hubot'
+      msg.send '自害 :ghost::gun:'
+
     exec "/app/#{appName}/deploy.sh", (err) ->
       if err
         msg.send ":bomb::bomb::bomb: Error: #{err.message}"
