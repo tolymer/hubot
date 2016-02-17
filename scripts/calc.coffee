@@ -12,7 +12,10 @@ module.exports = (robot) ->
 calc = (text) ->
   [fan, fu, role, method] = parse(text)
 
-  if (fan == 3 and fu == 70) or (4 <= fan and fan <= 5 and 30 <= fu)
+  if fu > 110
+    fu = 110
+
+  if (fan == 3 and fu >= 60) or (4 <= fan and fan <= 5 and 30 <= fu)
     basePoint = 2000
   else if 6 <= fan and fan <= 7
     basePoint = 3000
