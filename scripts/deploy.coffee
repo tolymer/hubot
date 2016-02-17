@@ -14,10 +14,10 @@ module.exports = (robot) ->
     if dirs.indexOf(appName) == -1
       return msg.send "Error: #{appName} is invalid"
 
-    msg.send "deploy: #{appName}"
+    msg.send "deploying #{appName} :rocket:"
 
     exec "/app/#{appName}/deploy.sh", (err) ->
       if err
-        msg.send "Error: #{err.message}"
+        msg.send ":bomb::bomb::bomb: Error: #{err.message}"
       else
-        msg.send "deployed: #{appName}"
+        msg.send "deployed #{appName} :shipit:"
