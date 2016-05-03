@@ -2,17 +2,22 @@ let assert = require('assert');
 let Mahjong = require('../models/mahjong');
 
 {
-  let mahjang = new Mahjong().haipai();
-  console.log(mahjang.display());
+  let mahjong = new Mahjong().haipai();
+  console.log(mahjong.display());
 }
 
 {
-  let mahjang = new Mahjong(['東', '南', '西', '北', '白', '発', '中', '一萬', '二萬', '三萬', '四萬', '五萬', '六萬', '七萬']);
-  assert(mahjang.display(), '🀀🀁🀂🀃🀆🀅🀄🀇🀈🀉🀊🀋🀌🀍');
-  mahjang.discard('南');
-  console.log(mahjang.display());
-  mahjang.tsumo();
-  console.log(mahjang.display());
+  let mahjong = new Mahjong(['東', '南', '西', '北', '白', '発', '中', '一萬', '二萬', '三萬', '四萬', '五萬', '六萬', '七萬'], [], '東');
+  assert(mahjong.display(), '🀀🀁🀂🀃🀆🀅🀄🀇🀈🀉🀊🀋🀌🀍');
+
+  mahjong.discard('南');
+  console.log(mahjong.display());
+
+  mahjong.discard('西');
+  console.log(mahjong.display());
+
+  [...Array(16).keys()].forEach(() => mahjong.tsumogiri());
+  console.log(mahjong.display());
 }
 
 assert.equal(Mahjong.getPaiCodePointFrom('東'), '🀀');

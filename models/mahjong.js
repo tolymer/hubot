@@ -8,9 +8,10 @@ const HAIPAI_COMMAND = ['配牌', 'はいぱい', 'ハイパイ', 'haipai', 'h']
 const TSUMOGIRI_COMMAND = ['ツモ切り', 'つも切り', 'ツモギリ', 'tsumogiri', 't'];
 
 class Mahjong {
-  constructor(pais = [], dora) {
+  constructor(pais = [], discardedPais = [], doraDisplayedPai = null) {
     this.pais = pais;
-    this.dora = dora;
+    this.doraDisplayedPai = doraDisplayedPai;
+    this.discardedPais = discardedPais;
   }
 
   haipai() {
@@ -18,7 +19,7 @@ class Mahjong {
       this.tsumo();
     }
 
-    this.dora = this.getRandomPai();
+    this.doraDisplayedPai = this.getRandomPai();
 
     return this;
   }
@@ -27,14 +28,14 @@ class Mahjong {
     let idx = this.pais.indexOf(Mahjong.normalizePai(pai));
     if (idx === -1) return false;
 
-    this.pais.splice(idx, 1);
+    this.discardedPais.push(this.pais.splice(idx, 1)[0]);
     this.tsumo();
 
     return true;
   }
 
   tsumogiri() {
-    this.pais.pop();
+    this.discardedPais.push(this.pais.pop());
     this.tsumo();
 
     return true;
@@ -60,9 +61,13 @@ class Mahjong {
     let len = this.pais.length;
     let soredPais = this.pais.slice(0, len - 1).map(Mahjong.getPaiCodePointFrom).sort().join('');
     let tsumoPai = Mahjong.getPaiCodePointFrom(this.pais[len - 1]);
-    let dora = Mahjong.getPaiCodePointFrom(this.dora) || 'なし';
+    let doraPais = `🀫🀫${Mahjong.getPaiCodePointFrom(this.doraDisplayedPai)}🀫🀫🀫🀫`;
+    let discardedPais = '';
+    for (let i = 0, len = this.discardedPais.length; i < len; i += 6) {
+      discardedPais += `${this.discardedPais.slice(i, i + 6).map(Mahjong.getPaiCodePointFrom).join('')}\n`;
+    }
 
-    return `${soredPais} ${tsumoPai} （ドラ ${dora}）`;
+    return `${discardedPais.trim()}\n\n${doraPais}\n\n${soredPais} ${tsumoPai}`;
   }
 }
 
