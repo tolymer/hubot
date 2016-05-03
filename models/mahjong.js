@@ -8,14 +8,17 @@ const HAIPAI_COMMAND = ['配牌', 'はいぱい', 'ハイパイ', 'haipai', 'h']
 const TSUMOGIRI_COMMAND = ['ツモ切り', 'つも切り', 'ツモギリ', 'tsumogiri', 't'];
 
 class Mahjong {
-  constructor(pais = []) {
+  constructor(pais = [], dora) {
     this.pais = pais;
+    this.dora = dora;
   }
 
   haipai() {
     while (this.pais.length < 14) {
       this.tsumo();
     }
+
+    this.dora = this.getRandomPai();
 
     return this;
   }
@@ -40,7 +43,7 @@ class Mahjong {
   tsumo() {
     if (this.pais.length >= 14) return;
 
-    let pai = PAIS[Math.floor(Math.random() * PAIS.length)];
+    let pai = this.getRandomPai();
     if (this.pais.filter(p => p === pai).length < 4) {
       this.pais.push(pai);
     }
@@ -49,12 +52,17 @@ class Mahjong {
     }
   }
 
+  getRandomPai() {
+    return PAIS[Math.floor(Math.random() * PAIS.length)];
+  }
+
   display() {
     let len = this.pais.length;
-    let tsumoPai = Mahjong.getPaiCodePointFrom(this.pais[len - 1]);
     let soredPais = this.pais.slice(0, len - 1).map(Mahjong.getPaiCodePointFrom).sort().join('');
+    let tsumoPai = Mahjong.getPaiCodePointFrom(this.pais[len - 1]);
+    let dora = Mahjong.getPaiCodePointFrom(this.dora) || 'なし';
 
-    return `${soredPais} ${tsumoPai}`;
+    return `${soredPais} ${tsumoPai} （ドラ ${dora}）`;
   }
 }
 
@@ -65,6 +73,8 @@ Mahjong.UNKNOWN = 4;
 
 Mahjong.getPaiCodePointFrom = (pai) => {
   let idx = PAIS.indexOf(pai);
+  if (idx === -1) return null;
+
   return String.fromCodePoint(0x1F000 + idx);
 };
 

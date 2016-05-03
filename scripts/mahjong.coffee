@@ -11,8 +11,8 @@ module.exports = (robot) ->
     { type, pai } = Mahjong.parseCommand(msg.match[1])
 
     restore = ->
-      { pais } = robot.brain.get('mahjong')
-      mahjong = new Mahjong(pais)
+      { pais, dora } = robot.brain.get('mahjong')
+      mahjong = new Mahjong(pais, dora)
 
     if process.env['DEBUG']
       console.log type, pai
@@ -32,4 +32,4 @@ module.exports = (robot) ->
         return
 
     msg.send mahjong.display()
-    robot.brain.set('mahjong', { pais: mahjong.pais })
+    robot.brain.set('mahjong', { pais: mahjong.pais, dora: mahjong.dora })
