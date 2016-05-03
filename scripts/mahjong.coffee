@@ -7,6 +7,15 @@
 Mahjong = require '../models/mahjong'
 
 module.exports = (robot) ->
-  robot.respond /mahj[oa]ng haipai$/i, (msg) ->
-    haipai = Mahjong.haipai()
-    msg.send haipai
+  robot.respond /mahj[oa]ng (.*)$/i, (msg) ->
+    command = msg.match[1]
+    if command == 'haipai'
+      mahjong = Mahjong.haipai()
+    else
+      { pais } = robot.brain.get('mahjong')
+      mahjong = new Mahjong(pais)
+      mahjong.discard(command)
+      mahjong.tsumo()
+
+    robot.brain.set('mahjong', { pais: mahjong.pais })
+    msg.send mahjong.display()

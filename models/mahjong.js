@@ -1,24 +1,47 @@
+const PAIS = [
+  '東', '南', '西', '北', '白', '発', '中',
+  '一萬', '二萬', '三萬', '四萬', '五萬', '六萬', '七萬', '八萬', '九萬',
+  '一索', '二索', '三索', '四索', '五索', '六索', '七索', '八索', '九索',
+  '一筒', '二筒', '三筒', '四筒', '五筒', '六筒', '七筒', '八筒', '九筒',
+];
+
 class Mahjong {
-  static getAllPais() {
-    let start = 0x1F000; // 東
-    let end   = 0x1F021; // 九筒
-    let length = end - start + 1;
-
-    return Array.from({ length }, (_, i) => String.fromCodePoint(start + i));
-  }
-
   static haipai() {
-    let result = [];
-    let pais = this.getAllPais();
+    let mahjong = new Mahjong();
 
-    while (result.length < 14) {
-      let pai = pais[Math.floor(Math.random() * pais.length)];
-      if (result.filter(p => p === pai).length < 4) {
-        result.push(pai);
-      }
+    while (mahjong.pais.length < 14) {
+      mahjong.tsumo();
     }
 
-    return result.sort().join('');
+    return mahjong;
+  }
+
+  constructor(pais = []) {
+    this.pais = pais;
+  }
+
+  discard(pai) {
+    let idx = this.pais.indexOf(pai);
+    this.pais.splice(idx, 1);
+  }
+
+  tsumo() {
+    if (this.pais.length >= 14) return;
+
+    let pai = PAIS[Math.floor(Math.random() * PAIS.length)];
+    if (this.pais.filter(p => p === pai).length < 4) {
+      this.pais.push(pai);
+    }
+    else {
+      this.tsumo();
+    }
+  }
+
+  display() {
+    return this.pais.map(pai => {
+      let idx = PAIS.indexOf(pai);
+      return String.fromCodePoint(0x1F000 + idx);
+    }).sort().join('');
   }
 }
 
