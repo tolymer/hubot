@@ -8,14 +8,28 @@ Mahjong = require '../models/mahjong'
 
 module.exports = (robot) ->
   robot.respond /mahj[oa]ng (.*)$/i, (msg) ->
-    command = msg.match[1]
-    if command == 'haipai'
-      mahjong = Mahjong.haipai()
-    else
+    { type, pai } = Mahjong.parseCommand(msg.match[1])
+
+    restore = ->
       { pais } = robot.brain.get('mahjong')
       mahjong = new Mahjong(pais)
-      mahjong.discard(command)
-      mahjong.tsumo()
 
-    robot.brain.set('mahjong', { pais: mahjong.pais })
+    if process.env['DEBUG']
+      console.log type, pai
+
+    switch type
+      when Mahjong.HAIPAI
+        mahjong = new Mahjong().haipai()
+      when Mahjong.TSUMOGIRI
+        mahjong = restore()
+        mahjong.tsumogiri()
+      when Mahjong.DISCARD
+        mahjong = restore()
+        unless mahjong.discard(pai)
+          return msg.send 'チョンボ'
+      else
+        msg.send 'チョンボ'
+        return
+
     msg.send mahjong.display()
+    robot.brain.set('mahjong', { pais: mahjong.pais })
