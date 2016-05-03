@@ -59,7 +59,7 @@ class Mahjong {
 
   display() {
     let len = this.pais.length;
-    let soredPais = this.pais.slice(0, len - 1).map(Mahjong.getPaiCodePointFrom).sort().join('');
+    let sortedPais = this.pais.slice(0, len - 1).map(Mahjong.getPaiCodePointFrom).sort().join('');
     let tsumoPai = Mahjong.getPaiCodePointFrom(this.pais[len - 1]);
     let doraPais = `🀫🀫${Mahjong.getPaiCodePointFrom(this.doraDisplayedPai)}🀫🀫🀫🀫`;
     let discardedPais = '';
@@ -67,7 +67,7 @@ class Mahjong {
       discardedPais += `${this.discardedPais.slice(i, i + 6).map(Mahjong.getPaiCodePointFrom).join('')}\n`;
     }
 
-    return `${discardedPais.trim()}\n\n${doraPais}\n\n${soredPais} ${tsumoPai}`;
+    return `${discardedPais.trim()}\n\n${doraPais}\n\n${sortedPais} ${tsumoPai}`;
   }
 }
 
