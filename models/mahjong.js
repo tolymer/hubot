@@ -1,4 +1,4 @@
-class Mahjang {
+class Mahjong {
   static getAllPais() {
     let start = 0x1F000; // 東
     let end   = 0x1F021; // 九筒
@@ -22,4 +22,4 @@ class Mahjang {
   }
 }
 
-module.exports = Mahjang;
+module.exports = Mahjong;
