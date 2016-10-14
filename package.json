@@ -7,7 +7,8 @@
     "hubot-help": "^0.1.1",
     "hubot-redis-brain": "0.0.3",
     "hubot-scripts": "^2.16.2",
-    "hubot-slack": "^3.3.0"
+    "hubot-slack": "^3.3.0",
+    "phantomjs": "^2.1.7"
   },
   "scripts": {
     "start": "hubot -a slack"
