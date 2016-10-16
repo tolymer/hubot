@@ -1,6 +1,13 @@
 {
   "name": "tolymer-hubot",
   "private": true,
+  "scripts": {
+    "start": "hubot -a slack",
+    "test": "ava"
+  },
+  "engines": {
+    "node": ">= 6.0.0"
+  },
   "dependencies": {
     "hubot": "^2.16.0",
     "hubot-diagnostics": "0.0.1",
@@ -10,10 +17,7 @@
     "hubot-slack": "^3.3.0",
     "phantomjs": "^2.1.7"
   },
-  "scripts": {
-    "start": "hubot -a slack"
-  },
-  "engines": {
-    "node": ">= 6.0.0"
+  "devDependencies": {
+    "ava": "^0.16.0"
   }
 }
