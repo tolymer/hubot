@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "hubot -a slack",
-    "test": "ava"
+    "test": "nyc ava"
   },
   "engines": {
     "node": ">= 6.0.0"
@@ -18,6 +18,7 @@
     "phantomjs": "^2.1.7"
   },
   "devDependencies": {
-    "ava": "^0.16.0"
+    "ava": "^0.16.0",
+    "nyc": "^8.3.1"
   }
 }
