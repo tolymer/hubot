@@ -18,13 +18,13 @@ const isMangan = (fan, fu) => {
   return false
 };
 
-const isHaneman = (fan, fu) => 6 <= fan && fan <= 7;
+const isHaneman = (fan) => 6 <= fan && fan <= 7;
 
-const isBaiman = (fan, fu) => 8 <= fan && fan <= 10;
+const isBaiman = (fan) => 8 <= fan && fan <= 10;
 
-const isSanbaiman = (fan, fu) => 11 <= fan && fan <= 12;
+const isSanbaiman = (fan) => 11 <= fan && fan <= 12;
 
-const isYakuman = (fan, fu) => 13 <= fan;
+const isYakuman = (fan) => 13 <= fan;
 
 const parse = (text = '') => {
   let [fan, fu, role, method] = text.trim().split(/\s+/);

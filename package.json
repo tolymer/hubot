@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "start": "hubot -a slack",
-    "test": "nyc ava"
+    "test": "eslint . && nyc ava"
   },
   "engines": {
     "node": ">= 6.0.0"
@@ -19,6 +19,21 @@
   },
   "devDependencies": {
     "ava": "^0.16.0",
+    "eslint": "^3.8.1",
     "nyc": "^8.3.1"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 6
+    },
+    "env": {
+      "browser": true,
+      "node": true,
+      "phantomjs": true
+    },
+    "rules": {
+      "no-console": "off"
+    }
   }
 }

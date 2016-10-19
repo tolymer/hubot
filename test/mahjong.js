@@ -3,7 +3,7 @@ let Mahjong = require('../models/mahjong');
 
 test('Mahjong#constructor', t => {
   let mahjong = new Mahjong(['東', '南', '西', '北', '白', '発', '中', '一萬', '二萬', '三萬', '四萬', '五萬', '六萬', '七萬'], [], '東');
-  t.is(mahjong.display(), '🀀🀁🀂🀃🀆🀅🀄🀇🀈🀉🀊🀋🀌🀍');
+  t.is(mahjong.display(), '\n\n🀫🀫🀀🀫🀫🀫🀫\n\n🀀🀁🀂🀃🀄🀆🀇🀈🀉🀊🀋🀌 🀍');
 
   mahjong.discard('南');
   console.log(mahjong.display());
@@ -15,7 +15,7 @@ test('Mahjong#constructor', t => {
   console.log(mahjong.display());
 });
 
-test('Mahjong#haipai', t => {
+test('Mahjong#haipai', () => {
   let mahjong = new Mahjong().haipai();
   console.log(mahjong.display());
 });
