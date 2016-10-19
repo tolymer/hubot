@@ -5,6 +5,7 @@
 //   hubot mahjong haipai
 
 const Mahjong = require('../models/mahjong');
+let mahjong = null;
 
 module.exports = (robot) => {
   robot.respond(/mahj[oa]ng (.*)$/i, (msg) => {
@@ -38,11 +39,11 @@ module.exports = (robot) => {
         return;
     }
 
-    msg.send mahjong.display();
+    msg.send(mahjong.display());
     robot.brain.set('mahjong', {
       pais: mahjong.pais,
       discardedPais: mahjong.discardedPais,
       doraDisplayedPai: mahjong.doraDisplayedPai,
     });
   });
-});
+};

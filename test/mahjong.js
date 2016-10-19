@@ -15,7 +15,7 @@ test('Mahjong#constructor', t => {
   console.log(mahjong.display());
 });
 
-test('Mahjong#haipai', t => {
+test('Mahjong#haipai', () => {
   let mahjong = new Mahjong().haipai();
   console.log(mahjong.display());
 });

@@ -15,7 +15,7 @@ module.exports = (robot) => {
       let room = msg.message.room;
       let token = process.env.HUBOT_SLACK_TOKEN;
       let url = 'https://slack.com/api/files.upload';
-      cp.exec(`curl -F file=@${nnkr)} -F channels=${room} -F token=${token} ${url}`);
+      cp.exec(`curl -F file=@${nnkr} -F channels=${room} -F token=${token} ${url}`);
     });
   });
 };
