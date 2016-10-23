@@ -22,6 +22,7 @@ module.exports = (robot) => {
       .then(() => fsP.readFile(nnkr))
       .then(buffer => imgo(buffer, { pngquant : true }))
       .then(buffer => fsP.writeFile(nnkr, buffer))
-      .then(() => cpP.exec(`curl -F file=@${nnkr} -F channels=${room} -F token=${token} ${url}`));
+      .then(() => cpP.exec(`curl -F file=@${nnkr} -F channels=${room} -F token=${token} ${url}`))
+      .catch(error => console.error(error));
   });
 };
