@@ -4,8 +4,8 @@ const PAIS = [
   '一索', '二索', '三索', '四索', '五索', '六索', '七索', '八索', '九索',
   '一筒', '二筒', '三筒', '四筒', '五筒', '六筒', '七筒', '八筒', '九筒',
 ];
-const HAIPAI_COMMAND = ['配牌', 'はいぱい', 'ハイパイ', 'haipai', 'h'];
-const TSUMOGIRI_COMMAND = ['ツモ切り', 'つも切り', 'ツモギリ', 'tsumogiri', 't'];
+const HAIPAI_COMMANDS = ['配牌', 'はいぱい', 'ハイパイ', 'haipai', 'h'];
+const TSUMOGIRI_COMMANDS = ['ツモ切り', 'つも切り', 'ツモギリ', 'tsumogiri', 't'];
 
 class Mahjong {
   constructor(pais = [], discardedPais = [], doraDisplayedPai = null) {
@@ -86,11 +86,11 @@ Mahjong.getPaiCodePointFrom = (pai) => {
 Mahjong.parseCommand = (command) => {
   command = command.trim();
 
-  if (HAIPAI_COMMAND.indexOf(command) !== -1) {
+  if (HAIPAI_COMMANDS.includes(command)) {
     return { type: Mahjong.HAIPAI };
   }
 
-  if (TSUMOGIRI_COMMAND.indexOf(command) !== -1) {
+  if (TSUMOGIRI_COMMANDS.includes(command)) {
     return { type: Mahjong.TSUMOGIRI };
   }
 
@@ -125,7 +125,7 @@ Mahjong.normalizePai = (pai) => {
     .replace(/^(hats?u|発)$/, '發')
     .replace(/^(chunn?|tyunn?)$/, '中');
 
-  if (PAIS.indexOf(pai) !== -1) {
+  if (PAIS.includes(pai)) {
     return pai;
   }
 
