@@ -81,17 +81,36 @@ class Mahjong {
     }
   }
 
-  display() {
-    let len = this.pais.length;
-    let sortedPais = this.pais.slice(0, len - 1).map(Mahjong.getPaiCodePointFrom).sort().join('');
-    let tsumoPai = Mahjong.getPaiCodePointFrom(this.pais[len - 1]);
-    let doraPais = `🀫🀫${Mahjong.getPaiCodePointFrom(this.doraDisplayedPai)}🀫🀫🀫🀫`;
-    let discardedPais = '';
+  get sutehai() {
+    let sutehai = '';
     for (let i = 0, len = this.discardedPais.length; i < len; i += 6) {
-      discardedPais += `${this.discardedPais.slice(i, i + 6).map(Mahjong.getPaiCodePointFrom).join('')}\n`;
+      let line = this.discardedPais
+        .slice(i, i + 6)
+        .map(Mahjong.getPaiCodePointFrom)
+        .join('');
+      sutehai += `${line}\n`;
     }
+    return sutehai.trim();
+  }
 
-    return `${discardedPais.trim()}\n\n${doraPais}\n\n${sortedPais} ${tsumoPai}`;
+  get wanpai() {
+    return `🀫🀫${Mahjong.getPaiCodePointFrom(this.doraDisplayedPai)}🀫🀫🀫🀫`;
+  }
+
+  get tehai() {
+    return this.pais
+      .slice(0, this.pais.length - 1)
+      .map(Mahjong.getPaiCodePointFrom)
+      .sort()
+      .join('');
+  }
+
+  get tsumohai() {
+    return Mahjong.getPaiCodePointFrom(this.pais[this.pais.length - 1]);
+  }
+
+  display() {
+    return `${this.sutehai}\n\n${this.wanpai}\n\n${this.tehai} ${this.tsumohai}`;
   }
 }
 
