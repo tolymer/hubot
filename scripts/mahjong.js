@@ -12,8 +12,9 @@ module.exports = (robot) => {
     let { type, pai } = Mahjong.parseCommand(msg.match[1]);
 
     const restore = () => {
+      let yama = Mahjong.generateYama();
       let { pais, discardedPais, doraDisplayedPai } = robot.brain.get('mahjong');
-      mahjong = new Mahjong(pais, discardedPais, doraDisplayedPai);
+      mahjong = new Mahjong({yama, pais, discardedPais, doraDisplayedPai});
     };
 
     if (process.env['DEBUG']) {
@@ -22,7 +23,7 @@ module.exports = (robot) => {
 
     switch (type) {
       case Mahjong.HAIPAI:
-        mahjong = new Mahjong().haipai();
+        mahjong = Mahjong.haipai();
         break;
       case Mahjong.TSUMOGIRI:
         mahjong = restore();
@@ -41,6 +42,7 @@ module.exports = (robot) => {
 
     msg.send(mahjong.display());
     robot.brain.set('mahjong', {
+      yana: mahjong.yama,
       pais: mahjong.pais,
       discardedPais: mahjong.discardedPais,
       doraDisplayedPai: mahjong.doraDisplayedPai,

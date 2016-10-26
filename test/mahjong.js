@@ -2,14 +2,15 @@ let test = require('ava');
 let Mahjong = require('../models/mahjong');
 
 test('Mahjong#constructor', t => {
+  let yama = Mahjong.generateYama();
   let pais = ['東', '南', '西', '北', '白', '発', '中', '一萬', '二萬', '三萬', '四萬', '五萬', '六萬', '七萬'];
   let discardedPais = [];
-  let mahjong = new Mahjong(pais, discardedPais, '東');
+  let mahjong = new Mahjong({yama, pais, discardedPais, doraDisplayedPai: '東'});
   t.is(mahjong.display(), '\n\n🀫🀫🀀🀫🀫🀫🀫\n\n🀀🀁🀂🀃🀄🀆🀇🀈🀉🀊🀋🀌 🀍');
 
   t.is(mahjong.pais.length, pais.length);
   t.is(mahjong.discardedPais.length, discardedPais.length);
-  t.is(mahjong.yama.length + mahjong.pais.length + mahjong.discardedPais.length, 136);
+  t.is(mahjong.yama.length + mahjong.pais.length + mahjong.discardedPais.length + 1, 136);
 
   mahjong.discard('南');
   console.log(mahjong.display());
@@ -17,14 +18,14 @@ test('Mahjong#constructor', t => {
   mahjong.discard('西');
   console.log(mahjong.display());
 
-  t.is(mahjong.yama.length + mahjong.pais.length + mahjong.discardedPais.length, 136);
+  t.is(mahjong.yama.length + mahjong.pais.length + mahjong.discardedPais.length + 1, 136);
 
   [...Array(16).keys()].forEach(() => mahjong.tsumogiri());
   console.log(mahjong.display());
 });
 
 test('Mahjong#haipai', () => {
-  let mahjong = new Mahjong().haipai();
+  let mahjong = Mahjong.haipai();
   console.log(mahjong.display());
 });
 

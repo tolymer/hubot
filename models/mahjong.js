@@ -6,25 +6,9 @@ const PAIS = [...HONORS, ...CHARACTERS, ...BAMBOOS, ...DOTS];
 const HAIPAI_COMMANDS = ['配牌', 'はいぱい', 'ハイパイ', 'haipai', 'h'];
 const TSUMOGIRI_COMMANDS = ['ツモ切り', 'つも切り', 'ツモギリ', 'tsumogiri', 't'];
 
-class Yama extends Array {
-  constructor() {
-    super();
-
-    this.push(...[...PAIS, ...PAIS, ...PAIS, ...PAIS]);
-
-    let len = this.length;
-    while (len) {
-      let i = Math.floor(Math.random() * len--);
-      let t = this[len];
-      this[len] = this[i];
-      this[i] = t;
-    }
-  }
-}
-
 class Mahjong {
-  constructor(pais = [], discardedPais = [], doraDisplayedPai = null) {
-    this.yama = new Yama();
+  constructor({yama, pais, discardedPais, doraDisplayedPai}) {
+    this.yama = yama;
     this.pais = pais;
     this.discardedPais = discardedPais;
     this.doraDisplayedPai = doraDisplayedPai;
@@ -38,16 +22,11 @@ class Mahjong {
       let idx = this.yama.indexOf(discardedPai);
       this.yama.splice(idx, 1);
     }
-  }
 
-  haipai() {
-    while (this.pais.length < 14) {
-      this.tsumo();
+    if (this.yama.includes(doraDisplayedPai)) {
+      let idx = this.yama.indexOf(doraDisplayedPai);
+      this.yama.splice(idx, 1);
     }
-
-    this.doraDisplayedPai = this.yama.shift();
-
-    return this;
   }
 
   discard(pai) {
@@ -72,13 +51,7 @@ class Mahjong {
   tsumo() {
     if (this.pais.length >= 14) return;
 
-    let pai = this.yama.shift();
-    if (this.pais.filter(p => p === pai).length < 4) {
-      this.pais.push(pai);
-    }
-    else {
-      this.tsumo();
-    }
+    this.pais.push(this.yama.shift());
   }
 
   get sutehai() {
@@ -118,6 +91,33 @@ Mahjong.HAIPAI = 1;
 Mahjong.TSUMOGIRI = 2;
 Mahjong.DISCARD = 3;
 Mahjong.UNKNOWN = 4;
+
+Mahjong.generateYama = () => {
+  let yama = [...PAIS, ...PAIS, ...PAIS, ...PAIS];
+
+  let len = yama.length;
+  while (len) {
+    let i = Math.floor(Math.random() * len--);
+    let t = this[len];
+    this[len] = this[i];
+    this[i] = t;
+  }
+
+  return yama;
+};
+
+Mahjong.haipai = () => {
+  let yama = Mahjong.generateYama();
+  let pais = [];
+  let discardedPais = [];
+  let doraDisplayedPai = yama.shift();
+
+  while (pais.length < 14) {
+    pais.push(yama.shift());
+  }
+
+  return new Mahjong({yama, pais, discardedPais, doraDisplayedPai});
+};
 
 Mahjong.getPaiCodePointFrom = (pai) => {
   let idx = PAIS.indexOf(pai);
