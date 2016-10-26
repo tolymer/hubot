@@ -41,7 +41,7 @@ module.exports = (robot) => {
 
     msg.send(mahjong.display());
     robot.brain.set('mahjong', {
-      yana: mahjong.yama,
+      yama: mahjong.yama,
       pais: mahjong.pais,
       discardedPais: mahjong.discardedPais,
       doraDisplayedPai: mahjong.doraDisplayedPai,
