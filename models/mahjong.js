@@ -8,9 +8,20 @@ const TSUMOGIRI_COMMANDS = ['ツモ切り', 'つも切り', 'ツモギリ', 'tsu
 
 class Mahjong {
   constructor(pais = [], discardedPais = [], doraDisplayedPai = null) {
+    this.yama = Mahjong.getYama();
     this.pais = pais;
-    this.doraDisplayedPai = doraDisplayedPai;
     this.discardedPais = discardedPais;
+    this.doraDisplayedPai = doraDisplayedPai;
+
+    for (let pai of this.pais) {
+      let idx = this.yama.indexOf(pai);
+      this.yama.splice(idx, 1);
+    }
+
+    for (let discardedPai of this.discardedPais) {
+      let idx = this.yama.indexOf(discardedPai);
+      this.yama.splice(idx, 1);
+    }
   }
 
   haipai() {
@@ -18,16 +29,18 @@ class Mahjong {
       this.tsumo();
     }
 
-    this.doraDisplayedPai = this.getRandomPai();
+    this.doraDisplayedPai = this.getPaiFromYama();
 
     return this;
   }
 
   discard(pai) {
-    let idx = this.pais.indexOf(Mahjong.normalizePai(pai));
+    let p = Mahjong.normalizePai(pai);
+    let idx = this.pais.indexOf(p);
     if (idx === -1) return false;
 
-    this.discardedPais.push(this.pais.splice(idx, 1)[0]);
+    this.pais.splice(idx, 1);
+    this.discardedPais.push(p);
     this.tsumo();
 
     return true;
@@ -43,7 +56,7 @@ class Mahjong {
   tsumo() {
     if (this.pais.length >= 14) return;
 
-    let pai = this.getRandomPai();
+    let pai = this.getPaiFromYama();
     if (this.pais.filter(p => p === pai).length < 4) {
       this.pais.push(pai);
     }
@@ -52,8 +65,9 @@ class Mahjong {
     }
   }
 
-  getRandomPai() {
-    return PAIS[Math.floor(Math.random() * PAIS.length)];
+  getPaiFromYama() {
+    let idx = Math.floor(Math.random() * this.yama.length);
+    return this.yama.splice(idx, 1);
   }
 
   display() {
@@ -74,6 +88,18 @@ Mahjong.HAIPAI = 1;
 Mahjong.TSUMOGIRI = 2;
 Mahjong.DISCARD = 3;
 Mahjong.UNKNOWN = 4;
+
+Mahjong.getYama = () => {
+  let pais = [...PAIS, ...PAIS, ...PAIS, ...PAIS];
+  let len = pais.length;
+  while (len) {
+    let i = Math.floor(Math.random() * len--);
+    let t = pais[len];
+    pais[len] = pais[i];
+    pais[i] = t;
+  }
+  return pais;
+};
 
 Mahjong.getPaiCodePointFrom = (pai) => {
   let idx = PAIS.indexOf(pai);

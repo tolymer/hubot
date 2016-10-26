@@ -2,14 +2,22 @@ let test = require('ava');
 let Mahjong = require('../models/mahjong');
 
 test('Mahjong#constructor', t => {
-  let mahjong = new Mahjong(['東', '南', '西', '北', '白', '発', '中', '一萬', '二萬', '三萬', '四萬', '五萬', '六萬', '七萬'], [], '東');
+  let pais = ['東', '南', '西', '北', '白', '発', '中', '一萬', '二萬', '三萬', '四萬', '五萬', '六萬', '七萬'];
+  let discardedPais = [];
+  let mahjong = new Mahjong(pais, discardedPais, '東');
   t.is(mahjong.display(), '\n\n🀫🀫🀀🀫🀫🀫🀫\n\n🀀🀁🀂🀃🀄🀆🀇🀈🀉🀊🀋🀌 🀍');
+
+  t.is(mahjong.pais.length, pais.length);
+  t.is(mahjong.discardedPais.length, discardedPais.length);
+  t.is(mahjong.yama.length + mahjong.pais.length + mahjong.discardedPais.length, 136);
 
   mahjong.discard('南');
   console.log(mahjong.display());
 
   mahjong.discard('西');
   console.log(mahjong.display());
+
+  t.is(mahjong.yama.length + mahjong.pais.length + mahjong.discardedPais.length, 136);
 
   [...Array(16).keys()].forEach(() => mahjong.tsumogiri());
   console.log(mahjong.display());
