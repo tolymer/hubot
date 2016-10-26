@@ -12,9 +12,8 @@ module.exports = (robot) => {
     let { type, pai } = Mahjong.parseCommand(msg.match[1]);
 
     const restore = () => {
-      let yama = Mahjong.generateYama();
-      let { pais, discardedPais, doraDisplayedPai } = robot.brain.get('mahjong');
-      mahjong = new Mahjong({yama, pais, discardedPais, doraDisplayedPai});
+      let { yama, pais, discardedPais, doraDisplayedPai } = robot.brain.get('mahjong');
+      return new Mahjong({yama, pais, discardedPais, doraDisplayedPai});
     };
 
     if (process.env['DEBUG']) {
