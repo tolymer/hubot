@@ -6,9 +6,25 @@ const PAIS = [...HONORS, ...CHARACTERS, ...BAMBOOS, ...DOTS];
 const HAIPAI_COMMANDS = ['配牌', 'はいぱい', 'ハイパイ', 'haipai', 'h'];
 const TSUMOGIRI_COMMANDS = ['ツモ切り', 'つも切り', 'ツモギリ', 'tsumogiri', 't'];
 
+class Yama extends Array {
+  constructor() {
+    super();
+
+    this.push(...[...PAIS, ...PAIS, ...PAIS, ...PAIS]);
+
+    let len = this.length;
+    while (len) {
+      let i = Math.floor(Math.random() * len--);
+      let t = this[len];
+      this[len] = this[i];
+      this[i] = t;
+    }
+  }
+}
+
 class Mahjong {
   constructor(pais = [], discardedPais = [], doraDisplayedPai = null) {
-    this.yama = Mahjong.getYama();
+    this.yama = new Yama();
     this.pais = pais;
     this.discardedPais = discardedPais;
     this.doraDisplayedPai = doraDisplayedPai;
@@ -29,7 +45,7 @@ class Mahjong {
       this.tsumo();
     }
 
-    this.doraDisplayedPai = this.getPaiFromYama();
+    this.doraDisplayedPai = this.yama.shift();
 
     return this;
   }
@@ -56,18 +72,13 @@ class Mahjong {
   tsumo() {
     if (this.pais.length >= 14) return;
 
-    let pai = this.getPaiFromYama();
+    let pai = this.yama.shift();
     if (this.pais.filter(p => p === pai).length < 4) {
       this.pais.push(pai);
     }
     else {
       this.tsumo();
     }
-  }
-
-  getPaiFromYama() {
-    let idx = Math.floor(Math.random() * this.yama.length);
-    return this.yama.splice(idx, 1);
   }
 
   display() {
@@ -88,18 +99,6 @@ Mahjong.HAIPAI = 1;
 Mahjong.TSUMOGIRI = 2;
 Mahjong.DISCARD = 3;
 Mahjong.UNKNOWN = 4;
-
-Mahjong.getYama = () => {
-  let pais = [...PAIS, ...PAIS, ...PAIS, ...PAIS];
-  let len = pais.length;
-  while (len) {
-    let i = Math.floor(Math.random() * len--);
-    let t = pais[len];
-    pais[len] = pais[i];
-    pais[i] = t;
-  }
-  return pais;
-};
 
 Mahjong.getPaiCodePointFrom = (pai) => {
   let idx = PAIS.indexOf(pai);
