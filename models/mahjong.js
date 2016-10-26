@@ -98,9 +98,9 @@ Mahjong.generateYama = () => {
   let len = yama.length;
   while (len) {
     let i = Math.floor(Math.random() * len--);
-    let t = this[len];
-    this[len] = this[i];
-    this[i] = t;
+    let t = yama[len];
+    yama[len] = yama[i];
+    yama[i] = t;
   }
 
   return yama;
