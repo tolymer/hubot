@@ -4,7 +4,7 @@
 // Commands:
 //   hubot nnkr
 
-const phantomjs = require('phantomjs');
+const phantomjs = require('phantomjs-prebuilt');
 const path = require('path');
 const pify = require('pify');
 const imgo = require('imgo');
