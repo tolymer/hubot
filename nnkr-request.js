@@ -1,7 +1,7 @@
-var page = require('webpage').create();
+const page = require('webpage').create();
 
 page.open('http://nnkr.jp/', function () {
-  var clipRect = page.evaluate(function(){
+  const clipRect = page.evaluate(function () {
     return document.querySelector('#random-pickup').getBoundingClientRect();
   });
   page.clipRect = {
@@ -11,5 +11,7 @@ page.open('http://nnkr.jp/', function () {
     height: clipRect.height
   };
   page.render('nnkr.png');
-  phantom.exit();
+  setTimeout(function() {
+    phantom.exit();
+  }, 2000);
 });
