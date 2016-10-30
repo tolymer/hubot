@@ -4,3 +4,7 @@ node_js:
   - 6
 notifications:
   email: false
+before_install:
+  - npm install -g yarn --cache-min 999999999
+install:
+  - yarn
