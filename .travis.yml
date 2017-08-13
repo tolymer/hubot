@@ -1,10 +1,6 @@
 sudo: false
 language: node_js
 node_js:
-  - 6
+  - 8
 notifications:
   email: false
-before_install:
-  - npm install -g yarn --cache-min 999999999
-install:
-  - yarn
