@@ -12,21 +12,6 @@ class Mahjong {
     this.pais = pais;
     this.discardedPais = discardedPais;
     this.doraDisplayedPai = doraDisplayedPai;
-
-    for (let pai of this.pais) {
-      let idx = this.yama.indexOf(pai);
-      this.yama.splice(idx, 1);
-    }
-
-    for (let discardedPai of this.discardedPais) {
-      let idx = this.yama.indexOf(discardedPai);
-      this.yama.splice(idx, 1);
-    }
-
-    if (this.yama.includes(doraDisplayedPai)) {
-      let idx = this.yama.indexOf(doraDisplayedPai);
-      this.yama.splice(idx, 1);
-    }
   }
 
   discard(pai) {
@@ -114,6 +99,21 @@ Mahjong.haipai = () => {
 
   while (pais.length < 14) {
     pais.push(yama.shift());
+  }
+
+  for (let pai of pais) {
+    let idx = yama.indexOf(pai);
+    yama.splice(idx, 1);
+  }
+
+  for (let discardedPai of discardedPais) {
+    let idx = yama.indexOf(discardedPai);
+    yama.splice(idx, 1);
+  }
+
+  if (yama.includes(doraDisplayedPai)) {
+    let idx = yama.indexOf(doraDisplayedPai);
+    yama.splice(idx, 1);
   }
 
   return new Mahjong({yama, pais, discardedPais, doraDisplayedPai});
