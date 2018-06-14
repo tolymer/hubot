@@ -5,10 +5,11 @@
 //   hubot mahjong haipai
 
 const Mahjong = require('../models/mahjong');
+const MAX_COUNT = 18;
 let mahjong = null;
 
 module.exports = (robot) => {
-  robot.respond(/mahj[oa]ng (.*)$/i, (msg) => {
+  robot.respond(/(mahj[oa]ng|mj) (.*)$/i, (msg) => {
     let { type, pai } = Mahjong.parseCommand(msg.match[1]);
 
     const restore = () => {
