@@ -10,7 +10,7 @@ let mahjong = null;
 
 module.exports = (robot) => {
   robot.respond(/(mahj[oa]ng|mj) (.*)$/i, (msg) => {
-    let { type, pai } = Mahjong.parseCommand(msg.match[1]);
+    let { type, pai } = Mahjong.parseCommand(msg.match[2]);
 
     const restore = () => {
       let { yama, pais, discardedPais, doraDisplayedPai } = robot.brain.get('mahjong');
