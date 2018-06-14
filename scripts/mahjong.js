@@ -27,10 +27,16 @@ module.exports = (robot) => {
         break;
       case Mahjong.TSUMOGIRI:
         mahjong = restore();
+        if (mahjong.discardedPais.length >= MAX_COUNT) {
+          return msg.send('終わりだよ〜');
+        }
         mahjong.tsumogiri()
         break;
       case Mahjong.DISCARD:
         mahjong = restore();
+        if (mahjong.discardedPais.length >= MAX_COUNT) {
+          return msg.send('終わりだよ〜');
+        }
         if (!mahjong.discard(pai)) {
           return msg.send('チョンボ');
         }
